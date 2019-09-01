@@ -66,6 +66,8 @@ const createFavoriteTable = () =>{
   }
 
   const insertdata = (x)=>{
+    // we should take the id of the favourite event create a record retreiving it from all events and appending
+    //the user phone number
       favourite.create(x)
   }
 
