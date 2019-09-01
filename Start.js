@@ -53,6 +53,12 @@ app.get("/favorite" ,(req,resp)=>{
     sequalizeFavourite.search(resp,req.query.phone)
 
 })
+app.get("/tests" ,(req,resp)=>{
+    res.statusCode = 200;
+     res.setHeader('Content-Type', 'text/html');
+     res.end('<h1>Hello World</h1>');
+
+})
 app.post("/favorite" ,(req,resp)=>{
     console.log("Post for favourite");
     console.log(req.query)

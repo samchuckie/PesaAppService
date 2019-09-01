@@ -6,8 +6,6 @@ const sequalizeGaming = require('./sequalizeGaming')
 const sequalizeFavourite = require('./sequalizeFavourite')
 const sequelize = common.sequelize
 const empty ={}
-
-
 const initialization = (resp) => {sequelize.authenticate().then(() => {
     createtable.createvalidationTable();
     art.createartsTable()
