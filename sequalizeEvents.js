@@ -122,7 +122,7 @@ const search = (resp,searching)=>{
       {
         where: {
           title: {
-            [Op.like]:`${searching}`
+            [Op.substring]:`${searching}`
           }
         }
       }
