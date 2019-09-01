@@ -29,6 +29,7 @@ const Sequelize = require('sequelize')
 //       idle: 10000
 //     }
 //   });
+
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
       dialect: 'postgres' 
     });

@@ -5,7 +5,10 @@ const sequelize = commons.sequelize
 const event = sequelize.define('featured', {
     title: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true,
+      primaryKey: true
+
     },
     host: {
       type: Sequelize.STRING,
@@ -116,33 +119,11 @@ const event = sequelize.define('featured', {
    resp.send(JSON.stringify(users))
   });
  }
-const search = (resp,searching)=>{
-    const Op = Sequelize.Op
-    event.findAll(
-      {
-        where: {
-          title: {
-            [Op.substring]:`${searching}`
-          }
-        }
-      }
-    ).then(users => {
-    if(users.length>0){
-      resp.status(200)
-      resp.send(JSON.stringify(users))
-    }
-    else{
-      const empty = {}
-      resp.status(640)
-      resp.json(empty)
 
-    }
-  })
-}
+
 
  module.exports = {
    featured:getFeatured,
-   search:search,
    createEventsTable:createEventsTable
  }
  

@@ -1,18 +1,19 @@
 const common = require('./common')
 const createtable =require('./createtable')
-const art = require('./sequalizeArt')
+const sequalizeArt = require('./sequalizeArt')
 const sequalizeEvent = require('./sequalizeEvents')
 const sequalizeGaming = require('./sequalizeGaming')
 const sequalizeFavourite = require('./sequalizeFavourite')
+const selectAll = require('./selectAll')
 const sequelize = common.sequelize
 const empty ={}
 const initialization = (resp) => {sequelize.authenticate().then(() => {
     createtable.createvalidationTable();
-    art.createartsTable()
+    sequalizeArt.createartsTable()
     sequalizeEvent.createEventsTable();
     sequalizeGaming.creategamingsTable();
     sequalizeFavourite.createFavoriteTable();
-    art.createartsTable();
+    selectAll.createALL();
     resp.status(200)
     resp.json(empty)
   })

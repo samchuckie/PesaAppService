@@ -5,7 +5,9 @@ const sequelize = commons.sequelize
   const gaming = sequelize.define('gaming', {
     title: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
+
     },
     host: {
       type: Sequelize.STRING,
@@ -113,32 +115,33 @@ const sequelize = commons.sequelize
    resp.send(JSON.stringify(users))
   });
  }
-const search = (resp,searching)=>{
-    const Op = Sequelize.Op
-    gaming.findAll(
-      {
-        where: {
-          title: {
-            [Op.substring]:`${searching}`
-          }
-        }
-      }
-    ).then(users => {
-    if(users.length>0){
-      resp.status(200)
-      resp.send(JSON.stringify(users))
-    }
-    else{
-      const empty = {}
-      resp.status(640)
-      resp.json(empty)
 
-    }
-  })
-}
+// const search = (resp,searching)=>{
+//     const Op = Sequelize.Op
+//     gaming.findAll(
+//       {
+//         where: {
+//           title: {
+//             [Op.substring]:`${searching}`
+//           }
+//         }
+//       }
+//     ).then(users => {
+//     if(users.length>0){
+//       resp.status(200)
+//       resp.send(JSON.stringify(users))
+//     }
+//     else{
+//       const empty = {}
+//       resp.status(640)
+//       resp.json(empty)
+
+//     }
+//   })
+// }
 
  module.exports = {
    gamingy:getgamingy,
-   search:search,
+  //  search:search,
    creategamingsTable:creategamingsTable,
  }

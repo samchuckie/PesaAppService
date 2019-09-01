@@ -2,14 +2,17 @@ const commons = require('./common')
 const Sequelize = require('sequelize');
 const sequelize = commons.sequelize
 
-const all = sequelize.define('All', {
+const all = sequelize.define('all', {
     title: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
+
     },
     host: {
       type: Sequelize.STRING,
-      allowNull:false
+      allowNull:false,
+      primaryKey: true
     },
     photo: {
       type: Sequelize.STRING,
@@ -51,20 +54,65 @@ const all = sequelize.define('All', {
         type: Sequelize.STRING,
         allowNull:false
       }
-  });
+  } 
+  
+  // ,
+//   {
+//     freezeTableName: true
+// }
 
- 
- const getALL = (resp)=>{
-   sequelize.query(`select * from arts union select * from gamings union select * from featureds`, {
-    model: all,
-    mapToModel: true
-   }).then(users => {
-   console.log("All users:", JSON.stringify(users))
-   resp.send(JSON.stringify(users))
-  });
- }
+
+);
+
+const createALL = ()=>{
+  sequelize.query(`create table if not exists alls as (select * from arts union select * from gamings union select * from featureds)`, {
+   model: all,
+   mapToModel: true
+  })
+}
+
+ const getALL= (resp)=>{
+  all.findAll().then(users => {
+  resp.send(JSON.stringify(users))
+ });
+}
+
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+const Op = Sequelize.Op
+const first = (searching) =>{
+  return all.findAll(
+    {
+      where: {
+        title: {
+          [Op.startsWith]: capitalize(searching)
+        }
+      }
+    }
+  )
+}
+
+const search = (resp,searching)=>{
+ first(searching).then(users => {
+  if(users.length>0){
+    resp.status(200)
+    resp.send(JSON.stringify(users))
+  }
+  else{
+    const empty = {}
+    resp.status(640)
+    resp.json(empty)
+
+  }
+})
+}
 
  module.exports = {
    getALL:getALL,
-  
+   search:search ,
+   createALL:createALL,
+   first:first
  }

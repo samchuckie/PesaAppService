@@ -5,7 +5,9 @@ const sequelize = commons.sequelize
 const art = sequelize.define('art', {
     title: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
+
     },
     host: {
       type: Sequelize.STRING,
@@ -113,32 +115,32 @@ const art = sequelize.define('art', {
    resp.send(JSON.stringify(users))
   });
  }
-const search = (resp,searching)=>{
-    const Op = Sequelize.Op
-    art.findAll(
-      {
-        where: {
-          title: {
-            [Op.substring]:`${searching}`
-          }
-        }
-      }
-    ).then(users => {
-    if(users.length>0){
-      resp.status(200)
-      resp.send(JSON.stringify(users))
-    }
-    else{
-      const empty = {}
-      resp.status(640)
-      resp.json(empty)
+ 
+// const search = (resp,searching)=>{
+//     const Op = Sequelize.Op
+//     art.findAll(
+//       {
+//         where: {
+//           title: {
+//             [Op.substring]:`${searching}`
+//           }
+//         }
+//       }
+//     ).then(users => {
+//     if(users.length>0){
+//       resp.status(200)
+//       resp.send(JSON.stringify(users))
+//     }
+//     else{
+//       const empty = {}
+//       resp.status(640)
+//       resp.json(empty)
 
-    }
-  })
-}
+//     }
+//   })
+// }
 
  module.exports = {
    getArty:getArty,
-   search:search,
    createartsTable:createartsTable,
  }

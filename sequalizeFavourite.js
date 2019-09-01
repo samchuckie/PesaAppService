@@ -1,6 +1,7 @@
 const commons = require('./common')
 const Sequelize = require('sequelize');
 const sequelize = commons.sequelize
+const selectAll = require('./selectAll')
 
 const favourite = sequelize.define('favourite', {
     phone: {
@@ -65,10 +66,27 @@ const createFavoriteTable = () =>{
     favourite.sync({ force: true })
   }
 
-  const insertdata = (x)=>{
-    // we should take the id of the favourite event create a record retreiving it from all events and appending
-    //the user phone number
-      favourite.create(x)
+  const insertdata = (resp,query)=>{
+    // Alternative we can use transactions
+
+    
+    const {title,phone} = query
+    selectAll.first (title).then(users =>{
+      const search =JSON.stringify(users);
+      const result = JSON.parse(search)[0]
+      result.phone = phone
+      console.log(result)
+      favourite.create(result).then(user => {
+        console.log("Successful favourite")
+        resp.status(200)
+        resp.json({})
+      }).catch(err => {
+        console.log(err)
+        resp.status(650)
+        resp.json({})
+      })
+    })
+    
   }
 
   const search = (resp ,phone) => {
