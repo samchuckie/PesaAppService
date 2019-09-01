@@ -11,6 +11,8 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use("/public" , express.static(path.join(__dirname)));
+
+
 app.get("/loadImages/:path",(req,res)=>{
 	res.sendFile(path.join(__dirname,"images",req.params.path));
 });
@@ -53,7 +55,7 @@ app.get("/favorite" ,(req,resp)=>{
     sequalizeFavourite.search(resp,req.query.phone)
 
 })
-app.get("/tests" ,(req,resp)=>{
+app.get("/tests" ,(req,res)=>{
     res.statusCode = 200;
      res.setHeader('Content-Type', 'text/html');
      res.end('<h1>Hello World</h1>');
