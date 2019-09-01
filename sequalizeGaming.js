@@ -1,19 +1,8 @@
-const Sequelize = require('sequelize');
 const commons = require('./common')
+const Sequelize = require('sequelize');
+const sequelize = commons.sequelize
 
-
-const sequelize = new Sequelize(`${commons.databasename}`, 'root', 'password', {
-  host: 'localhost',
-  dialect: 'mysql' ,
-  pool: {
-    max: 100,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
-
-  const gaming = sequelize.define('Gaming', {
+  const gaming = sequelize.define('gaming', {
     title: {
       type: Sequelize.STRING,
       allowNull: false

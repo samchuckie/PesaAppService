@@ -1,18 +1,6 @@
-const Sequelize = require('sequelize');
 const commons = require('./common')
-
-
-const sequelize = new Sequelize(`${commons.databasename}`, 'root', 'password', {
-  host: 'localhost',
-  dialect: 'mysql' ,
-  pool: {
-    max: 100,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
-
+const Sequelize = require('sequelize');
+const sequelize = commons.sequelize
 
 const favourite = sequelize.define('favourite', {
     phone: {
@@ -96,7 +84,8 @@ const createFavoriteTable = () =>{
         resp.status(640)
         resp.json(empty)
   
-      }    })
+      }    
+    })
 
   }
 module.exports = {

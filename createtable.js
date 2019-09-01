@@ -1,20 +1,62 @@
-const common = require('./common')
-const connection =  require('./connection')
-//Store passwords in safer,secure format
-//Describe table to change its structure later
-const create_user_details = `CREATE TABLE ${common.validationtable} (${common.email} VARCHAR(255), ${common.phone} DECIMAL(60) PRIMARY KEY, ${common.password} VARCHAR(255))`
-const creatable = () =>{
-    const dbaccess = connection.databaseconnection
-dbaccess.connect(err =>{
-    if(err) throw err
-    dbaccess.query(create_user_details , (err,results)=>{
-        if(err) throw err
-        console.log("Successful table creation")
-        // return err
-    })
+const commons = require('./common')
+const Sequelize = require('sequelize');
+const sequelize = commons.sequelize
+
+const empty = {}
+const validation = sequelize.define("validation",{
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false   
+     },
+     phone: {
+        type: Sequelize.DECIMAL,
+        allowNull: false   ,
+        primaryKey: true
+     },
+     password: {
+        type: Sequelize.STRING,
+        allowNull: false   
+     }
 })
-}
-module.exports = {
-    create_user_details:create_user_details,
-    creatable:creatable
-}
+
+const createvalidationTable = () =>{
+    validation.sync({ 
+        force: true 
+    })
+  }
+  const insertvalid = (query,resp) =>{
+      validation.create(query).then(users =>{
+          resp.status(200)
+          resp.json(empty)
+           
+      }).catch(err =>{
+          console.log("Unique record already exists")
+            resp.status(650)
+            resp.json(empty)
+      
+          
+      })
+  }
+  const getvalid = (query,resp) =>{
+      validation.findAll({
+        where : query
+    }).then(users =>{
+        const empty = {}
+        if(users.length>0){
+          resp.status(200)
+          resp.json(empty)
+        }
+        else{
+          resp.status(640)
+          resp.json(empty)
+    
+        }    
+      })
+  }
+  
+
+  module.exports = {
+    createvalidationTable:createvalidationTable,
+    insertvalid:insertvalid,
+    getvalid:getvalid
+  }
