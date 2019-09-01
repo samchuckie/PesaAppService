@@ -55,12 +55,7 @@ app.get("/favorite" ,(req,resp)=>{
     sequalizeFavourite.search(resp,req.query.phone)
 
 })
-app.get("/tests" ,(req,res)=>{
-    res.statusCode = 200;
-     res.setHeader('Content-Type', 'text/html');
-     res.end('<h1>Hello World</h1>');
 
-})
 app.post("/favorite" ,(req,resp)=>{
     console.log("Post for favourite");
     console.log(req.query)
@@ -72,6 +67,12 @@ app.post("/favorite" ,(req,resp)=>{
 app.get("/createall" ,(req,resp)=>{
     createdb.initialization(resp);
 })
+// app.get("/tests" ,(req,resp)=>{
+//     resp.statusCode = 200;
+//     resp.setHeader('Content-Type', 'text/html');
+//     resp.end('<h1>Hello World</h1>');
+
+// })
 app.listen(port, () => console.log(`App is listening on port ${port}!`))
 
 // const http = require('http');
